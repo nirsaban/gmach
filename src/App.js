@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, ReactNode } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { routes } from './routes';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useDispatch } from 'react-redux';
+import { setLoader } from './redux/loaderSlice';
+import { useSelector } from 'react-redux';
+import DrawerAppBar from './components/AppBar';
+
 
 function App() {
+  const dispatch = useDispatch();
+  const loaderState = useSelector((state) => state?.loader?.loader);
+  const getRoutes = () => {
+    return routes.map((route) => {
+      return <Route path={route.path} element={route.component} key={route.path} />;
+    });
+  };
+
   return (
+    
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+    <DrawerAppBar  />
+    
+      <Routes>
+        {getRoutes()}
+        <Route path="*" element={<Navigate to="/users"/>} />
+      </Routes>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loaderState}
+        onClick={() => dispatch(setLoader(false))}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+     
     </div>
   );
 }
