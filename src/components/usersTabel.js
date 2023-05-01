@@ -91,7 +91,7 @@ export function BasicTable({data, updatePaid,sendSms ,resetUsers}) {
       />
 
       <Button     
-        xs={false}
+      item
           sm={4}
           md={6} 
           variant = {"contained"} fullWidth  sx={{ mt: 3, mb: 2 }} onClick = {resetUsers}>

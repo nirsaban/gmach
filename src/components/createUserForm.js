@@ -130,6 +130,7 @@ export const CreateUserForm = ({setUsers , users}) => {
     <>
     <Grid
           container
+          item
           xs={12} sm={6} md={12}
           sx={{
             display: 'flex',
