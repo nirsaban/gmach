@@ -1,13 +1,18 @@
-FROM node:18.1-alpine AS build
+# Stage 0 - Build Frontend Assets
+FROM node:16-alpine as build
 
 WORKDIR /app
-COPY package*.json .
+COPY package*.json ./
 RUN npm install --legacy-peer-deps
-
-COPY . ./
+COPY . .
 RUN npm run build
 
-FROM nginx:1.19-alpine
+# Stage 1 - Serve Frontend Assets
+FROM fholzer/nginx-brotli:v1.12.2
 
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/build /use/share/nginx/html
+WORKDIR /etc/nginx
+ADD nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 443
+CMD ["nginx", "-g", "daemon off;"]
