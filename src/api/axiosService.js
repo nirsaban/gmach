@@ -2,9 +2,9 @@ import axios from "axios";
 import store from "../redux/store";
 import { setLoader } from "../redux/loaderSlice";
 export class AxiosService {
-   baseUrl = "https://us-central1-gmach-9e20b.cloudfunctions.net/api/api/v1";
+   baseUrl = "http://localhost:4000/api/v1";
    client
-
+//https://us-central1-gmach-9e20b.cloudfunctions.net/api/api/v1
   constructor() {
     this.configAxiosInstance();
   }
